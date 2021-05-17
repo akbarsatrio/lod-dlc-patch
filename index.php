@@ -26,7 +26,7 @@
         </div>
         <div class="form-group mb-3">
           <label>Password Database:</label>
-          <input type="text" name="db-password" class="form-control">
+          <input type="password" name="db-password" class="form-control">
         </div>
         <div class="form-group mb-3">
           <label>Lodger Web PATH:</label>
