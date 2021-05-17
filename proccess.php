@@ -12,7 +12,6 @@ if(isset($_POST['submit'])){
 }
 
 function pushTableMySQL(){
-  global $mysql;
   $mysql = @new mysqli($_SESSION['hostname'], $_SESSION['db_username'], $_SESSION['db_password'], $_SESSION['db_name']);
   if (mysqli_connect_errno()) {
     header('Content-Type: application/json');
