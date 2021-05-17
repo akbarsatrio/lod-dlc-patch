@@ -1,7 +1,5 @@
 <?php
 
-$mysql = NULL;
-
 if(isset($_POST['submit'])){
   $_SESSION['hostname'] = $_POST['hostname'];
   $_SESSION['db_name'] = $_POST['db-name'];
