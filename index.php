@@ -31,7 +31,7 @@
         <div class="form-group mb-3">
           <label>Lodger Web PATH:</label>
           <input type="text" name="web-path" class="form-control mb-1">
-          <small>Contoh untuk cPanel: <strong>/home/<span class="text-danger text-decoration-underline">username</span>/public_html</strong><br>Linux Webserver: <strong>/var/www/<span class="text-danger text-decoration-underline">nama_proyek</span></strong></small>
+          <small>Contoh untuk cPanel: <strong>/home/<span class="text-danger text-decoration-underline">username</span>/public_html</strong><br>Linux Webserver: <strong>/var/www/html/<span class="text-danger text-decoration-underline">nama_proyek</span></strong></small>
         </div>
         <button type="submit" name="submit" class="btn btn-primary w-100">Lanjut</button>
       </form>
