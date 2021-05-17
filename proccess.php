@@ -1,0 +1,70 @@
+<?php
+
+$config = ['hostname' => NULL, 'db_name' => NULL, 'db_username' => NULL, 'db_password' => NULL, 'web_path' => NULL];
+$mysql = NULL;
+
+if(isset($_POST['submit'])){
+  $config['hostname'] = $_POST['hostname'];
+  $config['db_name'] = $_POST['db-name'];
+  $config['db_username'] = $_POST['db-username'];
+  $config['db_password'] = $_POST['db-password'];
+  $config['web_path'] = $_POST['web-path'].'/';
+  createSession();
+} else {
+  header('Location: index.php');
+}
+
+function createSession(){
+  global $config;
+  $_SESSION['hostname'] = $config['hostname'];
+  $_SESSION['db_name'] = $config['db_name'];
+  $_SESSION['db_username'] = $config['db_username'];
+  $_SESSION['db_password'] = $config['db_password'];
+  $_SESSION['web_path'] = $config['web_path'];
+  pushTableMySQL();
+}
+
+function pushTableMySQL(){
+  global $mysql;
+  $mysql = @new mysqli($_SESSION['hostname'], $_SESSION['db_username'], $_SESSION['db_password'], $_SESSION['db_name']);
+  if (mysqli_connect_errno()) {
+    header('Content-Type: application/json');
+    echo json_encode(["success" => false, "message" => $mysql->connect_error]);
+    exit();
+  } else {
+    $sql = file_get_contents("depedency/database/database.sql");
+    $mysql->multi_query($sql);
+    do {} while (mysqli_more_results($mysql) && mysqli_next_result($mysql));
+    $mysql->close();
+    movePatchFiles();
+  }
+}
+
+function movePatchFiles(){
+  $folder = ['Controllers', 'Models', 'Libraries', 'Views'];
+  $file = [['Payment.php', 'App_Controller.php'], 'Payment_model.php', 'Left_menu.php', 'payment'];
+  $source = 'depedency/app/';
+  $destination = $_SESSION['web_path'].'app/';
+  for ($i=0; $i < count($folder); $i++) {
+    if(!is_dir($destination.$folder[$i])){
+      mkdir($destination.$folder[$i], 0755, true);
+    }
+    if ($i == 0){
+      for ($j=0; $j < count($file[$i]); $j++) { 
+        rename($source.$folder[$i].'/'.$file[$i][$j], $destination.$folder[$i].'/'.$file[$i][$j]);
+      }
+    } else {
+      rename($source.$folder[$i].'/'.$file[$i], $destination.$folder[$i].'/'.$file[$i]);
+    }
+  }
+  createUploadFolder();
+}
+
+function createUploadFolder() {
+  if(!is_dir($_SESSION['web_path'].'files/payment')){
+    mkdir($_SESSION['web_path'].'files/payment/applicant', 0755, true);
+  }
+  session_destroy();
+  header('Content-Type: application/json');
+  echo json_encode(["success" => true, "message" => 'Instalasi Sukses']);
+}
