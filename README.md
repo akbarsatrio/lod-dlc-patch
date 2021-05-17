@@ -1,2 +1,2 @@
-# lod-dlc-patch
-Lodger Project Manager DLC
+# LODGER Patch DLC Project Manager
+"app_version" => "2.7.1",
