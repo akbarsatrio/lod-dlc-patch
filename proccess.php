@@ -1,27 +1,16 @@
 <?php
 
-$config = ['hostname' => NULL, 'db_name' => NULL, 'db_username' => NULL, 'db_password' => NULL, 'web_path' => NULL];
 $mysql = NULL;
 
 if(isset($_POST['submit'])){
-  $config['hostname'] = $_POST['hostname'];
-  $config['db_name'] = $_POST['db-name'];
-  $config['db_username'] = $_POST['db-username'];
-  $config['db_password'] = $_POST['db-password'];
-  $config['web_path'] = $_POST['web-path'].'/';
-  createSession();
+  $_SESSION['hostname'] = $_POST['hostname'];
+  $_SESSION['db_name'] = $_POST['db-name'];
+  $_SESSION['db_username'] = $_POST['db-username'];
+  $_SESSION['db_password'] = $_POST['db-password'];
+  $_SESSION['web_path'] = $_POST['web-path'].'/';
+  pushTableMySQL();
 } else {
   header('Location: index.php');
-}
-
-function createSession(){
-  global $config;
-  $_SESSION['hostname'] = $config['hostname'];
-  $_SESSION['db_name'] = $config['db_name'];
-  $_SESSION['db_username'] = $config['db_username'];
-  $_SESSION['db_password'] = $config['db_password'];
-  $_SESSION['web_path'] = $config['web_path'];
-  pushTableMySQL();
 }
 
 function pushTableMySQL(){
